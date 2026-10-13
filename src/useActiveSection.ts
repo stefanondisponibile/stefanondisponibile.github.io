@@ -1,42 +1,56 @@
 import { useEffect, useState } from 'react'
 
-// Returns the id of the section crossing the middle of the viewport, if any.
-// At the bottom of the page the last section wins, since a short final
-// section may never reach the middle.
+const scrollKeys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' ']
+
+// Returns the id of the last section whose top has scrolled past a line near
+// the top of the viewport, if any. At the bottom of the page the last section
+// wins, since a short final section may never reach the line. After a click on
+// one of the sections' anchors, that section stays active until the user
+// scrolls on their own, since a short section may never reach the line either.
 export default function useActiveSection(ids: string[]) {
   const [active, setActive] = useState<string>()
-  const [atBottom, setAtBottom] = useState(false)
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) setActive(entry.target.id)
-          else setActive((current) => (current === entry.target.id ? undefined : current))
-        }
-      },
-      { rootMargin: '-45% 0px -50% 0px' },
-    )
-    for (const id of ids) {
-      const el = document.getElementById(id)
-      if (el) observer.observe(el)
-    }
-    return () => observer.disconnect()
-  }, [ids])
+    let clicked: string | undefined
 
-  useEffect(() => {
     const update = () => {
+      if (clicked) return setActive(clicked)
       const { scrollHeight } = document.documentElement
-      setAtBottom(scrollY > 0 && innerHeight + scrollY >= scrollHeight - 2)
+      if (scrollY > 0 && innerHeight + scrollY >= scrollHeight - 2) return setActive(ids.at(-1))
+      const line = Math.max(innerHeight * 0.3, 120)
+      let current: string | undefined
+      for (const id of ids) {
+        const el = document.getElementById(id)
+        if (el && el.getBoundingClientRect().top <= line) current = id
+      }
+      setActive(current)
     }
+
+    const click = (event: MouseEvent) => {
+      const link = (event.target as Element).closest?.('a[href^="#"]')
+      const id = link?.getAttribute('href')?.slice(1)
+      clicked = id && ids.includes(id) ? id : undefined
+      update()
+    }
+
+    const release = (event: Event) => {
+      if (!clicked || (event instanceof KeyboardEvent && !scrollKeys.includes(event.key))) return
+      clicked = undefined
+      update()
+    }
+
     update()
     addEventListener('scroll', update, { passive: true })
     addEventListener('resize', update)
+    addEventListener('click', click)
+    for (const type of ['wheel', 'touchstart', 'keydown'] as const) addEventListener(type, release, { passive: true })
     return () => {
       removeEventListener('scroll', update)
       removeEventListener('resize', update)
+      removeEventListener('click', click)
+      for (const type of ['wheel', 'touchstart', 'keydown'] as const) removeEventListener(type, release)
     }
-  }, [])
+  }, [ids])
 
-  return atBottom ? ids.at(-1) : active
+  return active
 }
