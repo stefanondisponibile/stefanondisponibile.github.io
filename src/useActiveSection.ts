@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
 
 // Returns the id of the section crossing the middle of the viewport, if any.
+// At the bottom of the page the last section wins, since a short final
+// section may never reach the middle.
 export default function useActiveSection(ids: string[]) {
   const [active, setActive] = useState<string>()
+  const [atBottom, setAtBottom] = useState(false)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -21,5 +24,19 @@ export default function useActiveSection(ids: string[]) {
     return () => observer.disconnect()
   }, [ids])
 
-  return active
+  useEffect(() => {
+    const update = () => {
+      const { scrollHeight } = document.documentElement
+      setAtBottom(scrollY > 0 && innerHeight + scrollY >= scrollHeight - 2)
+    }
+    update()
+    addEventListener('scroll', update, { passive: true })
+    addEventListener('resize', update)
+    return () => {
+      removeEventListener('scroll', update)
+      removeEventListener('resize', update)
+    }
+  }, [])
+
+  return atBottom ? ids.at(-1) : active
 }
