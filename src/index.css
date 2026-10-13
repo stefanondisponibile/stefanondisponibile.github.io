@@ -148,7 +148,60 @@
   }
 }
 
-/* Navbar ship: fly right, turn, fly back. */
+/* Navbar active-link highlight: a lava-lamp blob, merged by the #goo filter. */
+.goo {
+  filter: url(#goo);
+  opacity: 0.32;
+}
+
+.dark .goo {
+  opacity: 0.45;
+}
+
+.liquid {
+  background: linear-gradient(90deg, var(--color-violet-500), var(--color-fuchsia-500), var(--color-violet-500));
+  background-size: 300% 100%;
+}
+
+.drop {
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+}
+
+@keyframes morph {
+  0%,
+  100% {
+    border-radius: 999px;
+  }
+  25% {
+    border-radius: 60% 40% 55% 45% / 70% 50% 60% 40%;
+  }
+  50% {
+    border-radius: 45% 55% 40% 60% / 50% 70% 40% 60%;
+  }
+  75% {
+    border-radius: 55% 45% 60% 40% / 40% 60% 70% 50%;
+  }
+}
+
+@keyframes flow {
+  to {
+    background-position: 100% 0;
+  }
+}
+
+@keyframes ooze {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: var(--x) var(--y);
+  }
+}
+
+/* Navbar ship: fly right, turn, fly back. *//* Navbar ship: fly right, turn, fly back. */
 @keyframes patrol {
   0% {
     translate: 0 0;
@@ -222,6 +275,40 @@
     animation: patrol 22s ease-in-out infinite;
   }
 
+  .liquid {
+    animation: flow 5s ease-in-out infinite alternate;
+  }
+
+  .blob {
+    animation:
+      morph 4s ease-in-out infinite,
+      flow 5s ease-in-out infinite alternate;
+  }
+
+  .drop {
+    animation:
+      ooze var(--t) ease-in-out infinite,
+      flow 5s ease-in-out infinite alternate;
+  }
+
+  .drop-0 {
+    --t: 3.1s;
+    --x: calc(var(--reach) + 3px);
+    --y: -3px;
+  }
+
+  .drop-1 {
+    --t: 3.7s;
+    --x: calc(-1 * var(--reach) - 3px);
+    --y: 4px;
+  }
+
+  .drop-2 {
+    --t: 2.6s;
+    --x: calc(var(--reach) * 0.4);
+    --y: -9px;
+  }
+
   @supports (animation-timeline: view()) {
     .reveal {
       animation: rise linear both;
@@ -235,5 +322,11 @@
       animation-timeline: view();
       animation-range: entry 0% cover 30%;
     }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liquid {
+    transition: none !important;
   }
 }
