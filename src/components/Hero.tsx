@@ -13,10 +13,10 @@ export default function Hero() {
           {profile.name}
         </span>
       </h1>
-      <p style={{ '--delay': '0.2s' } as CSSProperties} className="rise mt-6 max-w-xl text-lg text-pretty text-fg-muted">
+      <p style={{ '--delay': '0.2s' } as CSSProperties} className="rise mt-6 max-w-2xl text-lg text-pretty text-fg-muted">
         {profile.tagline}
       </p>
-      <div style={{ '--delay': '0.3s' } as CSSProperties} className="rise mt-10 flex flex-wrap gap-3">
+      <div style={{ '--delay': '0.3s' } as CSSProperties} className="rise mt-10 flex font-mono flex-wrap gap-3">
         <a
           href="#experience"
           className="rounded-full! bg-linear-to-r from-violet-600 to-fuchsia-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-fuchsia-600/25 transition hover:shadow-fuchsia-500/40 hover:brightness-110"

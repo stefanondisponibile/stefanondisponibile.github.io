@@ -22,14 +22,14 @@ export default function Header() {
         Skip to content
       </a>
       <div className="mx-auto flex max-w-3xl items-center justify-between gap-1 rounded-full border border-accent-500/20 bg-white/60 p-1.5 shadow-lg shadow-accent-500/10 backdrop-blur-xl sm:gap-2 dark:bg-ink/60 dark:shadow-black/40">
-        <a href="#top" className="flex items-center gap-2 rounded-full! py-0.5 pr-2 pl-0.5 font-semibold tracking-tight">
+        <a href="#top" className="flex items-center gap-2 rounded-full! py-0.5 pr-2 pl-0.5 font-mono font-semibold tracking-tight">
           <span className="shrink-0 rounded-full bg-linear-to-br from-violet-500 to-fuchsia-500 p-0.5 shadow-[0_0_12px] shadow-fuchsia-500/40">
             <img src="/avatar.webp" alt="" width="32" height="32" className="size-8 rounded-full bg-mauve-50" />
           </span>
           <span className="max-sm:sr-only">{profile.name}</span>
         </a>
         <nav aria-label="Primary">
-          <ul className="flex text-[13px] sm:text-sm">
+          <ul className="flex text-[13px] sm:font-mono sm:text-sm">
             {nav.map((item) => {
               const current = active === item.id
               return (
