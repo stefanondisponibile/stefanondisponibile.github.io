@@ -8,7 +8,7 @@ Requires Node.js (LTS) and npm.
 
 ```sh
 npm ci            # install dependencies
-npm run dev       # start dev server
+npm run dev       # start dev server (or: make dev)
 npm run build     # type-check and build to dist/
 npm run preview   # serve the production build
 npm run lint      # lint with oxlint
