@@ -28,5 +28,6 @@ Edit `src/content.ts` to update the profile, experience, skills and links.
 ## Deployment
 
 Pushes to `main` deploy via `.github/workflows/deploy.yml`.
+Pull requests to `main` are linted and built (no deploy) via `.github/workflows/ci.yml`.
 In the repository settings, set **Pages → Source** to **GitHub Actions**.
 The custom domain is kept by `public/CNAME`.
