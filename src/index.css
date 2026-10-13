@@ -1,0 +1,332 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Space Grotesk Variable", "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --color-accent-300: var(--color-violet-300);
+  --color-accent-400: var(--color-violet-400);
+  --color-accent-500: var(--color-violet-500);
+  --color-accent-600: var(--color-violet-600);
+  --color-accent-700: var(--color-violet-700);
+  --color-ink: oklch(0.14 0.03 295);
+}
+
+/* Text roles; values swap with the theme below. */
+@theme inline {
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-subtle: var(--fg-subtle);
+  --color-fg-accent: var(--fg-accent);
+}
+
+:root {
+  --fg: var(--color-mauve-950);
+  --fg-muted: var(--color-mauve-700);
+  --fg-subtle: var(--color-mauve-500);
+  --fg-accent: var(--color-violet-700);
+}
+
+.dark {
+  --fg: var(--color-mauve-50);
+  --fg-muted: var(--color-mauve-300);
+  --fg-subtle: var(--color-mauve-400);
+  --fg-accent: var(--color-violet-300);
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    /* Keeps the drifting glow layer from adding horizontal scroll. */
+    overflow-x: clip;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-mono);
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--color-fuchsia-500) 35%, transparent);
+  }
+
+  body {
+    --glow-a: color-mix(in oklab, var(--color-violet-400) 30%, transparent);
+    --glow-b: color-mix(in oklab, var(--color-fuchsia-400) 22%, transparent);
+    --grain-opacity: 0.05;
+    isolation: isolate;
+  }
+
+  /* Hero glows; a separate layer so drifting only moves a composited box. */
+  body::after {
+    content: "";
+    position: absolute;
+    /* Bleeds past the edges so drifting never exposes one. */
+    inset: -4rem -4rem auto;
+    height: 52rem;
+    z-index: -2;
+    pointer-events: none;
+    background-image:
+      radial-gradient(40rem 28rem at 15% -2rem, var(--glow-a), transparent 70%),
+      radial-gradient(36rem 24rem at 90% 8rem, var(--glow-b), transparent 70%);
+    background-repeat: no-repeat;
+  }
+
+  /* Fine film grain; softens gradient banding. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: var(--grain-opacity);
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+
+  .dark body {
+    --glow-a: color-mix(in oklab, var(--color-violet-600) 35%, transparent);
+    --glow-b: color-mix(in oklab, var(--color-fuchsia-600) 22%, transparent);
+    --grain-opacity: 0.04;
+  }
+}
+
+@keyframes drift {
+  to {
+    transform: translate3d(3rem, 2rem, 0) scale(1.08);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}
+
+@keyframes grow {
+  from {
+    scale: 0 1;
+  }
+}
+
+@keyframes shimmer {
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes glow-pulse {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* Spaceship thruster; scales from the hull outward. */
+.flame {
+  transform-box: fill-box;
+  transform-origin: right center;
+  transition: scale 0.2s;
+}
+
+.boost .flame,
+.group:hover .patrol .flame {
+  scale: 1.8 1;
+}
+
+@keyframes flicker {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Navbar active-link highlight: a lava-lamp blob, merged by the #goo filter. */
+.goo {
+  filter: url(#goo);
+  opacity: 0.32;
+}
+
+.dark .goo {
+  opacity: 0.45;
+}
+
+.liquid {
+  background: linear-gradient(90deg, var(--color-violet-500), var(--color-fuchsia-500), var(--color-violet-500));
+  background-size: 300% 100%;
+}
+
+.drop {
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+}
+
+@keyframes morph {
+  0%,
+  100% {
+    border-radius: 999px;
+  }
+  25% {
+    border-radius: 60% 40% 55% 45% / 70% 50% 60% 40%;
+  }
+  50% {
+    border-radius: 45% 55% 40% 60% / 50% 70% 40% 60%;
+  }
+  75% {
+    border-radius: 55% 45% 60% 40% / 40% 60% 70% 50%;
+  }
+}
+
+@keyframes flow {
+  to {
+    background-position: 100% 0;
+  }
+}
+
+@keyframes ooze {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: var(--x) var(--y);
+  }
+}
+
+/* Navbar ship: fly right, turn, fly back. *//* Navbar ship: fly right, turn, fly back. */
+@keyframes patrol {
+  0% {
+    translate: 0 0;
+    scale: 1 1;
+  }
+  46% {
+    translate: calc(100cqw - 100%) 0;
+    scale: 1 1;
+  }
+  50% {
+    translate: calc(100cqw - 100%) 0;
+    scale: -1 1;
+  }
+  96% {
+    translate: 0 0;
+    scale: -1 1;
+  }
+  100% {
+    translate: 0 0;
+    scale: 1 1;
+  }
+}
+
+/* Theme switch: the new theme expands in a circle from the toggle. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  animation: reveal 0.5s ease-in-out;
+}
+
+@keyframes reveal {
+  from {
+    clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 0));
+  }
+  to {
+    clip-path: circle(var(--vt-r, 150vmax) at var(--vt-x, 50%) var(--vt-y, 0));
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body::after {
+    animation: drift 24s ease-in-out infinite alternate;
+  }
+
+  .rise {
+    animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--delay, 0s) both;
+  }
+
+  .shimmer {
+    background-size: 200% 100%;
+    animation: shimmer 8s ease-in-out infinite alternate;
+  }
+
+  .glow-pulse {
+    animation: glow-pulse 2.4s ease-in-out infinite;
+  }
+
+  .flicker {
+    animation: flicker 0.18s steps(1) infinite;
+  }
+
+  .patrol {
+    animation: patrol 22s ease-in-out infinite;
+  }
+
+  .liquid {
+    animation: flow 5s ease-in-out infinite alternate;
+  }
+
+  .blob {
+    animation:
+      morph 4s ease-in-out infinite,
+      flow 5s ease-in-out infinite alternate;
+  }
+
+  .drop {
+    animation:
+      ooze var(--t) ease-in-out infinite,
+      flow 5s ease-in-out infinite alternate;
+  }
+
+  .drop-0 {
+    --t: 3.1s;
+    --x: calc(var(--reach) + 3px);
+    --y: -3px;
+  }
+
+  .drop-1 {
+    --t: 3.7s;
+    --x: calc(-1 * var(--reach) - 3px);
+    --y: 4px;
+  }
+
+  .drop-2 {
+    --t: 2.6s;
+    --x: calc(var(--reach) * 0.4);
+    --y: -9px;
+  }
+
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+
+    .reveal-line {
+      transform-origin: left;
+      animation: grow linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 30%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liquid {
+    transition: none !important;
+  }
+}
