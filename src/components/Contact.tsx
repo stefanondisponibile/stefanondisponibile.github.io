@@ -10,10 +10,12 @@ export default function Contact() {
           <li key={link.url}>
             <a
               href={link.url}
-              className="inline-flex items-center gap-1.5 rounded-full! border border-accent-500/30 bg-white/50 px-4 py-2 text-sm font-medium transition-colors hover:border-fuchsia-500/60 hover:bg-accent-500/10 dark:bg-white/5 hover:text-fg-accent"
+              className="group inline-flex items-center gap-1.5 rounded-full! border border-accent-500/30 bg-white/50 px-4 py-2 text-sm font-medium transition-colors hover:border-fuchsia-500/60 hover:bg-accent-500/10 dark:bg-white/5 hover:text-fg-accent"
             >
               {link.label}
-              <span aria-hidden="true">↗</span>
+              <span aria-hidden="true" className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transform-none">
+                ↗
+              </span>
             </a>
           </li>
         ))}

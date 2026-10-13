@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { flushSync } from 'react-dom'
 
 function setTheme(dark: boolean) {
   document.documentElement.classList.toggle('dark', dark)
@@ -21,9 +22,25 @@ export default function ThemeToggle() {
       role="switch"
       aria-checked={!dark}
       aria-label="Light mode"
-      onClick={() => {
-        setTheme(!dark)
-        setDark(!dark)
+      onClick={(event) => {
+        const update = () => {
+          setTheme(!dark)
+          flushSync(() => setDark(!dark))
+        }
+        if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          update()
+          return
+        }
+        // Expand the new theme in a circle from the toggle.
+        const { left, top, width, height } = event.currentTarget.getBoundingClientRect()
+        const x = left + width / 2
+        const y = top + height / 2
+        const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y))
+        const root = document.documentElement.style
+        root.setProperty('--vt-x', `${x}px`)
+        root.setProperty('--vt-y', `${y}px`)
+        root.setProperty('--vt-r', `${r}px`)
+        document.startViewTransition(update)
       }}
       className="relative inline-flex h-7 w-12 shrink-0 cursor-pointer items-center rounded-full border border-accent-500/30 bg-accent-500/15 transition-colors hover:border-accent-500/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500"
     >

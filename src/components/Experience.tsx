@@ -15,7 +15,7 @@ export default function Experience() {
               <h3 className="text-lg font-semibold">
                 <a href={job.url} className="group hover:text-fg-accent">
                   {job.company}
-                  <span aria-hidden="true" className="ml-1 text-sm text-fg-subtle group-hover:text-fg-accent">
+                  <span aria-hidden="true" className="ml-1 inline-block text-sm text-fg-subtle transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-fg-accent motion-reduce:transform-none">
                     ↗
                   </span>
                 </a>
@@ -26,7 +26,7 @@ export default function Experience() {
               {job.roles.map((role) => (
                 <div
                   key={role.title}
-                  className="rounded-2xl border border-accent-500/20 bg-white/60 p-5 shadow-sm backdrop-blur dark:bg-white/[0.03]"
+                  className="reveal rounded-2xl border border-accent-500/20 bg-white/60 p-5 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:border-accent-500/40 hover:shadow-md hover:shadow-accent-500/10 motion-reduce:transition-none motion-reduce:hover:translate-y-0 dark:bg-white/[0.03]"
                 >
                   <h4 className="font-medium text-fg-accent">{role.title}</h4>
                   <ul className="mt-3 space-y-2 text-sm leading-relaxed text-fg-muted">
