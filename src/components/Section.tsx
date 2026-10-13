@@ -8,9 +8,13 @@ type Props = {
 
 export default function Section({ id, title, children }: Props) {
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className="scroll-mt-20 py-12">
-      <h2 id={`${id}-title`} className="mb-6 text-2xl font-semibold tracking-tight">
+    <section id={id} aria-labelledby={`${id}-title`} className="scroll-mt-24 py-14">
+      <h2
+        id={`${id}-title`}
+        className="mb-8 flex items-center gap-4 font-mono text-sm font-semibold tracking-widest text-fg-accent uppercase"
+      >
         {title}
+        <span aria-hidden="true" className="h-px flex-1 bg-linear-to-r from-accent-500/50 to-transparent" />
       </h2>
       {children}
     </section>

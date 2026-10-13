@@ -4,11 +4,16 @@ import Section from './Section'
 export default function Contact() {
   return (
     <Section id="contact" title="Contact">
-      <ul className="flex flex-wrap gap-4">
+      <p className="max-w-xl text-lg text-fg-muted">Want to chat? Find me on:</p>
+      <ul className="mt-6 flex flex-wrap gap-3">
         {links.map((link) => (
           <li key={link.url}>
-            <a href={link.url} className="underline underline-offset-4">
+            <a
+              href={link.url}
+              className="inline-flex items-center gap-1.5 rounded-full! border border-accent-500/30 bg-white/50 px-4 py-2 text-sm font-medium transition-colors hover:border-fuchsia-500/60 hover:bg-accent-500/10 dark:bg-white/5 hover:text-fg-accent"
+            >
               {link.label}
+              <span aria-hidden="true">↗</span>
             </a>
           </li>
         ))}

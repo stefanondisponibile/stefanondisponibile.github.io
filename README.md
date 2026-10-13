@@ -23,7 +23,7 @@ npm run lint      # lint with oxlint
 
 ## Content
 
-Edit `src/content.ts` to update the profile, projects and links.
+Edit `src/content.ts` to update the profile, experience, skills and links.
 
 ## Deployment
 
