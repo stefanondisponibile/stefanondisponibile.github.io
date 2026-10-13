@@ -130,6 +130,48 @@
   }
 }
 
+/* Spaceship thruster; scales from the hull outward. */
+.flame {
+  transform-box: fill-box;
+  transform-origin: right center;
+  transition: scale 0.2s;
+}
+
+.boost .flame,
+.group:hover .patrol .flame {
+  scale: 1.8 1;
+}
+
+@keyframes flicker {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Navbar ship: fly right, turn, fly back. */
+@keyframes patrol {
+  0% {
+    translate: 0 0;
+    scale: 1 1;
+  }
+  46% {
+    translate: calc(100cqw - 100%) 0;
+    scale: 1 1;
+  }
+  50% {
+    translate: calc(100cqw - 100%) 0;
+    scale: -1 1;
+  }
+  96% {
+    translate: 0 0;
+    scale: -1 1;
+  }
+  100% {
+    translate: 0 0;
+    scale: 1 1;
+  }
+}
+
 /* Theme switch: the new theme expands in a circle from the toggle. */
 ::view-transition-old(root),
 ::view-transition-new(root) {
@@ -170,6 +212,14 @@
 
   .glow-pulse {
     animation: glow-pulse 2.4s ease-in-out infinite;
+  }
+
+  .flicker {
+    animation: flicker 0.18s steps(1) infinite;
+  }
+
+  .patrol {
+    animation: patrol 22s ease-in-out infinite;
   }
 
   @supports (animation-timeline: view()) {

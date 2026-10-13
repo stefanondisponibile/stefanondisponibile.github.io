@@ -1,9 +1,11 @@
 import type { CSSProperties } from 'react'
 import { profile } from '../content'
+import Fleet from './Fleet'
 
 export default function Hero() {
   return (
-    <div className="py-20 sm:py-28">
+    <div className="relative isolate py-20 sm:py-28">
+      <Fleet />
       <p className="rise inline-flex items-center gap-2 rounded-full border border-accent-500/25 bg-accent-500/10 px-3 py-1 font-mono text-xs text-fg-accent">
         <span aria-hidden="true" className="size-1.5 glow-pulse rounded-full bg-fuchsia-500 shadow-[0_0_8px] shadow-fuchsia-500" />
         Hi, I'm
