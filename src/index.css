@@ -38,7 +38,6 @@
 @layer base {
   html {
     color-scheme: light;
-    /* Keeps the drifting glow layer from adding horizontal scroll. */
     overflow-x: clip;
   }
 
@@ -62,6 +61,10 @@
     --glow-b: color-mix(in oklab, var(--color-fuchsia-400) 22%, transparent);
     --grain-opacity: 0.05;
     isolation: isolate;
+    /* Clips the glow layer and ship fleet; mobile browsers ignore the html clip
+       when panning. Positioned so body::after is clipped too. */
+    position: relative;
+    overflow-x: clip;
   }
 
   /* Hero glows; a separate layer so drifting only moves a composited box. */
