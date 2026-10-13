@@ -13,7 +13,7 @@ export default function Experience() {
             />
             <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
               <h3 className="text-lg font-semibold">
-                <a href={job.url} className="group hover:text-fg-accent">
+                <a href={job.url} target="_blank" rel="noopener noreferrer" className="group hover:text-fg-accent">
                   {job.company}
                   <span aria-hidden="true" className="ml-1 inline-block text-sm text-fg-subtle transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-fg-accent motion-reduce:transform-none">
                     ↗

@@ -10,6 +10,8 @@ export default function Contact() {
           <li key={link.url}>
             <a
               href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group inline-flex font-mono items-center gap-1.5 rounded-full! border border-accent-500/30 bg-white/50 px-4 py-2 text-sm font-medium transition-colors hover:border-fuchsia-500/60 hover:bg-accent-500/10 dark:bg-white/5 hover:text-fg-accent"
             >
               {link.label}
