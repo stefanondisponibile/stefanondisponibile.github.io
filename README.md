@@ -4,11 +4,18 @@ Personal website and portfolio, built with Vite, React, TypeScript and Tailwind 
 
 ## Development
 
-Requires Node.js (LTS) and npm.
+Requires Node.js (LTS) and npm. First time, run:
+
+```sh
+make setup        # install dependencies (idempotent)
+make dev          # start dev server
+```
+
+Or with npm directly:
 
 ```sh
 npm ci            # install dependencies
-npm run dev       # start dev server (or: make dev)
+npm run dev       # start dev server
 npm run build     # type-check and build to dist/
 npm run preview   # serve the production build
 npm run lint      # lint with oxlint
